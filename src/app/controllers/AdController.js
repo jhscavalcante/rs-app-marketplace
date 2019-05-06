@@ -2,20 +2,37 @@ const Ad = require('../models/Ad')
 
 class AdController {
   async index (req, res) {
-    // 1° parãmetro são os filtros, neste momento está vazio
+    const filters = {}
+
+    // $gte (maior ou igual) e $lte (menor ou igual) => são propriedade do mongoose
+    if (req.query.price_min || req.query.price_max) {
+      filters.price = {}
+
+      if (req.query.price_min) {
+        filters.price.$gte = req.query.price_min
+      }
+
+      if (req.query.price_max) {
+        filters.price.$lte = req.query.price_max
+      }
+    }
+
+    // o "i" ignora se estiver em letras maiúsculas ou minúsculas
+    if (req.query.title) {
+      filters.title = new RegExp(req.query.title, 'i')
+    }
+
+    // 1° parãmetro: são os filtros
     // 2° parâmetro:
     // page: verifica se tem o valor na requisição, se não possuir será 1
     // limit: total de registros por página
     // sort: order by decrescente, neste caso, por conta do "-"
-    const ads = await Ad.paginate(
-      {},
-      {
-        page: req.query.page || 1,
-        limit: 20,
-        populate: ['author'],
-        sort: '-createdAt'
-      }
-    )
+    const ads = await Ad.paginate(filters, {
+      page: req.query.page || 1,
+      limit: 20,
+      populate: ['author'],
+      sort: '-createdAt'
+    })
 
     return res.json(ads)
   }
