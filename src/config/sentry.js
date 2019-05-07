@@ -1,3 +1,3 @@
 module.exports = {
-  dsn: ''
+  dsn: process.env.SENTRY_DSN
 }

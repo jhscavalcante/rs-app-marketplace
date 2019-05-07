@@ -1,3 +1,3 @@
 module.exports = {
-  uri: ''
+  uri: process.env.DB_URL
 }
