@@ -44,6 +44,8 @@ class AdController {
   }
 
   async store (req, res) {
+    // throw new Error() => para testar exception
+
     const ad = await Ad.create({
       ...req.body,
       author: req.userId
