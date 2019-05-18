@@ -4,6 +4,9 @@ class AdController {
   async index (req, res) {
     const filters = {}
 
+    // documentos que contêm o campo de purchasedBy cujo valor é nulo ou que não contém o campo de purchasedBy.
+    filters.purchasedBy = null
+
     // $gte (maior ou igual) e $lte (menor ou igual) => são propriedade do mongoose
     if (req.query.price_min || req.query.price_max) {
       filters.price = {}

@@ -48,4 +48,9 @@ routes.post(
   handle(controllers.PurchaseController.store)
 )
 
+routes.put(
+  '/purchases/:id',
+  handle(controllers.PurchaseController.acceptPurchaseIntention)
+)
+
 module.exports = routes
